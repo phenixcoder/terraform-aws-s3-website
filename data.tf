@@ -1,8 +1,3 @@
-provider "aws" {
-  alias  = "cdn"
-  region = "us-east-1"
-}
-
 locals {
   domain_name = var.sub_domain_name == "" ? var.domain_name : "${var.sub_domain_name}.${var.domain_name}"
 }
