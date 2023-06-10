@@ -1,15 +1,14 @@
 output "name" {
   value = var.name
 }
-output "domain" {
-  value = aws_route53_record.website_domain.fqdn
+output "bucket" {
+  value = aws_s3_bucket.website_bucket.bucket
 }
-output "s3_bucket" {
-  value = aws_s3_bucket.website_bucket.id
-}
-output "s3_bucket_domain" {
-  value = aws_s3_bucket.website_bucket.website_endpoint
-}
-output "cloudfront_distribution_id" {
+
+output "cdn" {
   value = aws_cloudfront_distribution.cdn.id
+}
+
+output "domain" {
+  value = local.domain_name
 }

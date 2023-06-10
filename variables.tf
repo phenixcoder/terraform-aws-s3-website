@@ -9,19 +9,14 @@ variable "name" {
   }
 }
 
-variable "hosted_zone_id" {
-  type = string
-}
-
 variable "domain_name" {
   type        = string
   description = "Domain name where this application will be installed"
 }
-
-variable "sub_domain" {
+variable "sub_domain_name" {
   type        = string
+  description = "subdomain prefixed to generate final domain for the website."
   default     = ""
-  description = "Subdomain. If the website needs to be setup on a sub domain of domain name. E.g. subdomain.domain_name.com"
 }
 
 variable "comment" {
@@ -30,13 +25,23 @@ variable "comment" {
   description = "Static Website using AWS S3 Cloudfront ACM and Route53"
 }
 
-variable "environment" {
-  type        = string
-  description = "Deployment Environment Tag"
-}
-
 variable "tags" {
   default     = {}
   type        = map(string)
   description = "Extra tags to attach to the ACM certificate"
+}
+
+variable "ssl_certificate" {
+  type        = string
+  description = "ARN of SSL Certificate"
+}
+
+variable "bff" {
+  type = list(object({
+    path        = string
+    api_gateway = string
+    origin_path = optional(string)
+  }))
+  default     = []
+  description = "Collection of Backend for frontend configuration when you want to point yoy specific path to an API"
 }
