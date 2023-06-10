@@ -9,6 +9,12 @@ variable "name" {
   }
 }
 
+variable "hosting_zone_public" {
+  type        = bool
+  description = "Default true. Set false if hosted zone is private"
+  default     = true
+}
+
 variable "domain_name" {
   type        = string
   description = "Domain name where this application will be installed"
