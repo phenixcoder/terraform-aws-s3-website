@@ -138,7 +138,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  aliases = [local.domain_name]
+  aliases = concat([local.domain_name], local.additional_sub_domains)
 
   default_cache_behavior {
     allowed_methods  = ["HEAD", "GET", "OPTIONS"]
@@ -183,6 +183,18 @@ resource "aws_cloudfront_distribution" "cdn" {
 # Route53
 
 resource "aws_route53_record" "website_domain" {
+  zone_id = data.aws_route53_zone.hosting_zone.zone_id
+  name    = local.domain_name
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.cdn.domain_name
+    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+resource "aws_route53_record" "website_additional_domains" {
+  count = var.additional_sub_domains.length
   zone_id = data.aws_route53_zone.hosting_zone.zone_id
   name    = local.domain_name
   type    = "A"

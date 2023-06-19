@@ -31,6 +31,12 @@ variable "sub_domain_name" {
   default     = ""
 }
 
+variable "additional_sub_domains" {
+  type        = list(string)
+  description = "additonal subdomains prefixed to domain_name generate additional domains for the website. e.g. example.com will have additional domain www.example.com. In case of subdomain as app, with domain name example.com and additional domains add1, add2 and www will generate following domains app.example.com, add1.example.com, add2.example.com and www.example.com. If subdomain is passed as app and need to support www for that domain too then additional domain can be set to www.app which will generate www.app.example.com and app.example.com."
+  default     = []
+}
+
 variable "comment" {
   type        = string
   default     = "default"

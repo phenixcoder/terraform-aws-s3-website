@@ -1,5 +1,6 @@
 locals {
   domain_name = var.sub_domain_name == "" ? var.domain_name : "${var.sub_domain_name}.${var.domain_name}"
+  additional_sub_domains = [for subdomain in var.additional_sub_domains: "${subdomain}.${var.domain_name}"]
 }
 
 data "aws_region" "current_region" {}
