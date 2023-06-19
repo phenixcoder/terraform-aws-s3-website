@@ -194,9 +194,9 @@ resource "aws_route53_record" "website_domain" {
   }
 }
 resource "aws_route53_record" "website_additional_domains" {
-  count = var.additional_sub_domains.length
+  for_each = { for idx, record in local.additional_sub_domains : idx => record }
   zone_id = data.aws_route53_zone.hosting_zone.zone_id
-  name    = local.domain_name
+  name    = each.value
   type    = "A"
 
   alias {

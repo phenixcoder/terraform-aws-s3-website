@@ -1,2 +1,5 @@
 .terraform.lock.hcl
 .terraform
+
+# Allways ignore this file as its a default variables file. Use it for your local testing
+terraform.tfvars 
