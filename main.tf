@@ -19,7 +19,7 @@ resource "aws_s3_bucket" "website_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "website_bucket" {
-  bucket = aws_s3_bucket.example.id
+  bucket = aws_s3_bucket.website_bucket.id
 
   block_public_acls       = false
   block_public_policy     = false
