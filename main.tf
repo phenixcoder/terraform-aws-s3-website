@@ -2,6 +2,7 @@ data "aws_region" "current_region" {}
 
 locals {
   domain_name = var.domain_name
+  additional_sub_domains = [for subdomain in var.additional_sub_domains: "${subdomain}.${var.domain_name}"]
 }
 
 # S3 Bucket
@@ -225,6 +226,19 @@ data "aws_route53_zone" "hosting_zone" {
 resource "aws_route53_record" "website_domain" {
   zone_id = data.aws_route53_zone.hosting_zone.zone_id
   name    = local.domain_name
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.cdn.domain_name
+    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "website_additional_domains" {
+  for_each = { for idx, record in local.additional_sub_domains : idx => record }
+  zone_id = data.aws_route53_zone.hosting_zone.zone_id
+  name    = each.value
   type    = "A"
 
   alias {
